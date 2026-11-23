@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Registration | Smart Campus Internship System</title>
+    <link rel="stylesheet" href="../assets/css/shared.css">
+    <link rel="stylesheet" href="faculty.css">
+</head>
+
+<body class="auth-page">
+
+    <div class="auth-card" style="max-width: 600px;">
+        <div style="margin-bottom: 1rem;">
+            <a href="login.html"
+                style="font-size: 0.85rem; color: var(--text-muted); display: inline-flex; align-items: center; gap: 0.4rem;">
+                ← Back to Faculty Login
+            </a>
+        </div>
+
+        <div class="auth-header">
+            <div class="auth-badge faculty-badge">👩‍🏫 Faculty Registration</div>
+            <h2 class="auth-title">Create Mentor Profile</h2>
+            <p class="auth-subtitle">Guide undergraduate and postgraduate internship cohorts</p>
+        </div>
+
+        <div id="reg-error-msg"
+            style="display: none; background: rgba(244, 63, 94, 0.15); border: 1px solid rgba(244, 63, 94, 0.3); color: #fda4af; padding: 0.75rem 1rem; border-radius: var(--radius-sm); font-size: 0.85rem; margin-bottom: 1.25rem;">
+        </div>
+
+        <form id="faculty-reg-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label" for="f-name">Honorific & Full Name *</label>
+                    <input type="text" id="f-name" class="form-control" placeholder="e.g. Dr. Arun Kumar" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="f-designation">Academic Designation *</label>
+                    <select id="f-designation" class="form-control" required>
+                        <option value="Associate Professor & Mentor">Associate Professor & Mentor</option>
+                        <option value="Professor & Department Chair">Professor & Department Chair</option>
+                        <option value="Assistant Professor">Assistant Professor</option>
+                        <option value="Head of Industry Liaison">Head of Industry Liaison</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label" for="f-dept">Department *</label>
+                    <select id="f-dept" class="form-control" required>
+                        <option value="Computer Science & Engineering">Computer Science & Engineering</option>
+                        <option value="Electronics & Communication">Electronics & Communication</option>
+                        <option value="Information Technology">Information Technology</option>
+                        <option value="Electrical Engineering">Electrical Engineering</option>
+                        <option value="Mechanical Engineering">Mechanical Engineering</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="f-phone">Office / Contact Phone</label>
+                    <input type="tel" id="f-phone" class="form-control" placeholder="+91 98765 00000">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="f-email">Institutional Email Address *</label>
+                <input type="email" id="f-email" class="form-control" placeholder="name@campus.edu" required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label" for="f-password">Password *</label>
+                    <input type="password" id="f-password" class="form-control" placeholder="Min 6 characters"
+                        minlength="6" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="f-confirm">Confirm Password *</label>
+                    <input type="password" id="f-confirm" class="form-control" placeholder="Re-enter password" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary"
+                style="width: 100%; margin-top: 1rem; background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);">
+                Complete Faculty Registration
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            Already have an account? <a href="login.html" style="color: var(--accent-cyan);">Sign in here</a>
+        </div>
+    </div>
+
+    <script src="../assets/js/data.js"></script>
+    <script>
+        document.getElementById("faculty-reg-form").addEventListener("submit", (e) => {
+            e.preventDefault();
+            const password = document.getElementById("f-password").value;
+            const confirm = document.getElementById("f-confirm").value;
+            const errorBox = document.getElementById("reg-error-msg");
+
+            if (password !== confirm) {
+                errorBox.textContent = "Passwords do not match.";
+                errorBox.style.display = "block";
+                return;
+            }
+
+            const userData = {
+                name: document.getElementById("f-name").value.trim(),
+                email: document.getElementById("f-email").value.trim(),
+                password: password,
+                role: "faculty",
+                department: document.getElementById("f-dept").value,
+                designation: document.getElementById("f-designation").value,
+                phone: document.getElementById("f-phone").value.trim() || "+91 98765 43210",
+                avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
+            };
+
+            const res = SCIMS.register(userData);
+            if (res.success) {
+                SCIMS.showToast("Faculty profile created successfully!", "success");
+                setTimeout(() => {
+                    window.location.href = "dashboard.html";
+                }, 400);
+            } else {
+                errorBox.textContent = res.message;
+                errorBox.style.display = "block";
+            }
+        });
+    </script>
+</body>
+
+</html>

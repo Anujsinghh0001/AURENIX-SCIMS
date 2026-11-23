@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recruiter Registration | Smart Campus Internship System</title>
+    <link rel="stylesheet" href="../assets/css/shared.css">
+    <link rel="stylesheet" href="recruiter.css">
+</head>
+
+<body class="auth-page">
+
+    <div class="auth-card" style="max-width: 620px;">
+        <div style="margin-bottom: 1rem;">
+            <a href="login.html"
+                style="font-size: 0.85rem; color: var(--text-muted); display: inline-flex; align-items: center; gap: 0.4rem;">
+                ← Back to Recruiter Login
+            </a>
+        </div>
+
+        <div class="auth-header">
+            <div class="auth-badge recruiter-badge">💼 Employer Registration</div>
+            <h2 class="auth-title">Register Enterprise Company</h2>
+            <p class="auth-subtitle">Post campus internships and hire top pre-screened students</p>
+        </div>
+
+        <div id="reg-error-msg"
+            style="display: none; background: rgba(244, 63, 94, 0.15); border: 1px solid rgba(244, 63, 94, 0.3); color: #fda4af; padding: 0.75rem 1rem; border-radius: var(--radius-sm); font-size: 0.85rem; margin-bottom: 1.25rem;">
+        </div>
+
+        <form id="recruiter-reg-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label" for="r-name">Recruiter Name *</label>
+                    <input type="text" id="r-name" class="form-control" placeholder="e.g. Sarah Jenkins" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="r-designation">Designation *</label>
+                    <input type="text" id="r-designation" class="form-control" placeholder="e.g. University Talent Lead"
+                        required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label" for="r-company">Company / Organization *</label>
+                    <input type="text" id="r-company" class="form-control" placeholder="e.g. Google Cloud" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="r-industry">Industry Sector *</label>
+                    <select id="r-industry" class="form-control" required>
+                        <option value="Information Technology / SaaS">Information Technology / SaaS</option>
+                        <option value="Artificial Intelligence / Data">Artificial Intelligence / Data</option>
+                        <option value="Banking & FinTech">Banking & FinTech</option>
+                        <option value="Automotive & IoT">Automotive & IoT</option>
+                        <option value="Healthcare & BioTech">Healthcare & BioTech</option>
+                        <option value="Core Engineering">Core Engineering</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label" for="r-email">Corporate Work Email *</label>
+                    <input type="email" id="r-email" class="form-control" placeholder="e.g. recruiter@company.com"
+                        required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="r-location">Hiring Location / Office *</label>
+                    <input type="text" id="r-location" class="form-control" placeholder="e.g. Bangalore / Remote"
+                        required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="r-website">Corporate Careers Website</label>
+                <input type="url" id="r-website" class="form-control" placeholder="https://company.com/careers">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label" for="r-password">Password *</label>
+                    <input type="password" id="r-password" class="form-control" placeholder="Min 6 characters"
+                        minlength="6" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="r-confirm">Confirm Password *</label>
+                    <input type="password" id="r-confirm" class="form-control" placeholder="Re-enter password" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary"
+                style="width: 100%; margin-top: 1rem; background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);">
+                Create Recruiter Account
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            Already registered? <a href="login.html" style="color: var(--accent-amber);">Sign in here</a>
+        </div>
+    </div>
+
+    <script src="../assets/js/data.js"></script>
+    <script>
+        document.getElementById("recruiter-reg-form").addEventListener("submit", (e) => {
+            e.preventDefault();
+            const password = document.getElementById("r-password").value;
+            const confirm = document.getElementById("r-confirm").value;
+            const errorBox = document.getElementById("reg-error-msg");
+
+            if (password !== confirm) {
+                errorBox.textContent = "Passwords do not match.";
+                errorBox.style.display = "block";
+                return;
+            }
+
+            const userData = {
+                name: document.getElementById("r-name").value.trim(),
+                email: document.getElementById("r-email").value.trim(),
+                password: password,
+                role: "recruiter",
+                company: document.getElementById("r-company").value.trim(),
+                designation: document.getElementById("r-designation").value.trim(),
+                industry: document.getElementById("r-industry").value,
+                location: document.getElementById("r-location").value.trim(),
+                website: document.getElementById("r-website").value.trim() || "https://company.com",
+                avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80"
+            };
+
+            const res = SCIMS.register(userData);
+            if (res.success) {
+                SCIMS.showToast("Recruiter account registered successfully!", "success");
+                setTimeout(() => {
+                    window.location.href = "dashboard.html";
+                }, 400);
+            } else {
+                errorBox.textContent = res.message;
+                errorBox.style.display = "block";
+            }
+        });
+    </script>
+</body>
+
+</html>

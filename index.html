@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Campus Internship Management System | SCIMS</title>
+    <link rel="stylesheet" href="assets/css/shared.css">
+    <style>
+        .hero-section {
+            padding: 5rem 2rem 4rem;
+            text-align: center;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1rem;
+            border-radius: var(--radius-full);
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.35);
+            color: var(--primary-light);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title {
+            font-size: 3.2rem;
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.25rem;
+        }
+
+        .hero-title span {
+            background: var(--primary-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 760px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.6;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-stat-item h3 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .hero-stat-item p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Portal Cards Grid */
+        .portals-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 2rem 5rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .portal-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 2.2rem 1.8rem;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+            backdrop-filter: blur(12px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .portal-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--border-highlight);
+            box-shadow: var(--shadow-lg), var(--glow-primary);
+        }
+
+        .portal-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .portal-student::before {
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+        }
+
+        .portal-faculty::before {
+            background: linear-gradient(90deg, #06b6d4, #10b981);
+        }
+
+        .portal-recruiter::before {
+            background: linear-gradient(90deg, #f59e0b, #ef4444);
+        }
+
+        .portal-admin::before {
+            background: linear-gradient(90deg, #ec4899, #8b5cf6);
+        }
+
+        .portal-icon-box {
+            width: 58px;
+            height: 58px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.7rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .portal-student .portal-icon-box {
+            background: rgba(99, 102, 241, 0.15);
+            color: #818cf8;
+        }
+
+        .portal-faculty .portal-icon-box {
+            background: rgba(6, 182, 212, 0.15);
+            color: #22d3ee;
+        }
+
+        .portal-recruiter .portal-icon-box {
+            background: rgba(245, 158, 11, 0.15);
+            color: #fbbf24;
+        }
+
+        .portal-admin .portal-icon-box {
+            background: rgba(236, 72, 153, 0.15);
+            color: #f472b6;
+        }
+
+        .portal-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.6rem;
+        }
+
+        .portal-desc {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+            line-height: 1.6;
+        }
+
+        .portal-features-list {
+            list-style: none;
+            margin-bottom: 1.8rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .portal-features-list li {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .portal-features-list li::before {
+            content: "✓";
+            color: var(--accent-emerald);
+            font-weight: bold;
+        }
+
+        .portal-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .portal-actions .btn {
+            flex: 1;
+        }
+
+        /* Demo credentials modal / drawer */
+        .demo-bar {
+            max-width: 1200px;
+            margin: 0 auto 4rem;
+            padding: 1.5rem 2rem;
+            background: rgba(17, 24, 39, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            backdrop-filter: blur(10px);
+        }
+
+        .demo-bar h4 {
+            font-size: 1rem;
+            color: #fff;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .demo-credentials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+
+        .cred-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            padding: 0.85rem;
+            border-radius: var(--radius-sm);
+        }
+
+        .cred-role {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.35rem;
+        }
+
+        .cred-email,
+        .cred-pass {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            font-family: monospace;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Modern Header Navigation -->
+    <header class="top-navbar">
+        <a href="index.html" class="brand-wrapper">
+            <div class="brand-icon">🎓</div>
+            <div class="brand-text">
+                <h1>SmartCampus <span>SCIMS</span></h1>
+                <p>Internship Management System</p>
+            </div>
+        </a>
+
+        <ul class="nav-links">
+            <li><a href="#portals" class="active">Portals</a></li>
+            <li><a href="#credentials">Demo Credentials</a></li>
+            <li><a href="#architecture">Architecture</a></li>
+        </ul>
+
+        <div class="nav-user-actions">
+            <a href="admin/login.html" class="btn btn-secondary btn-sm">Admin Gateway 🔒</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-badge">⚡ 4 Integrated Pillars • Client-Side JS Architecture • Zero Backend Needed</div>
+        <h1 class="hero-title">
+            Smart Campus <span>Internship Management</span> System
+        </h1>
+        <p class="hero-desc">
+            An end-to-end university ecosystem orchestrating student applications, corporate hiring pipelines, faculty
+            mentor NOC clearance, and centralized administrative intelligence.
+        </p>
+
+        <div class="hero-stats">
+            <div class="hero-stat-item">
+                <h3>4 Pillars</h3>
+                <p>Student • Faculty • Recruiter • Admin</p>
+            </div>
+            <div class="hero-stat-item">
+                <h3>100% Client-Side</h3>
+                <p>HTML5 • CSS3 • Pure JS + LocalStorage</p>
+            </div>
+            <div class="hero-stat-item">
+                <h3>Pre-Seeded</h3>
+                <p>Mock Const Data Ready to Test</p>
+            </div>
+            <div class="hero-stat-item">
+                <h3>Workflow Ready</h3>
+                <p>Apply • NOC Clearance • Weekly Diary</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Four Portals Section -->
+    <section class="portals-section" id="portals">
+        <div class="section-header">
+            <h2>Select Your Campus Portal</h2>
+            <p>Dedicated role-based portals with tailor-made workflows for every campus stakeholder.</p>
+        </div>
+
+        <div class="portal-grid">
+            <!-- Student Portal -->
+            <div class="portal-card portal-student">
+                <div class="portal-icon-box">👨‍🎓</div>
+                <h3 class="portal-title">Student Portal</h3>
+                <p class="portal-desc">
+                    Discover verified corporate internships, submit one-click applications, request departmental NOC
+                    approval, and submit weekly progress diaries.
+                </p>
+                <ul class="portal-features-list">
+                    <li>Browse verified openings & stipends</li>
+                    <li>Digital NOC approval requests</li>
+                    <li>Weekly work diary submission</li>
+                    <li>Real-time application status tracker</li>
+                </ul>
+                <div class="portal-actions">
+                    <a href="student/login.html" class="btn btn-primary">Login</a>
+                    <a href="student/register.html" class="btn btn-secondary">Register</a>
+                </div>
+            </div>
+
+            <!-- Faculty Portal -->
+            <div class="portal-card portal-faculty">
+                <div class="portal-icon-box">👩‍🏫</div>
+                <h3 class="portal-title">Faculty Portal</h3>
+                <p class="portal-desc">
+                    Oversee student cohorts, review and approve digital NOC clearance requests, monitor internship
+                    progress, and evaluate weekly logs.
+                </p>
+                <ul class="portal-features-list">
+                    <li>Approve or reject student NOCs</li>
+                    <li>Review student weekly milestone logs</li>
+                    <li>Provide feedback and assign grades</li>
+                    <li>Track student placement status</li>
+                </ul>
+                <div class="portal-actions">
+                    <a href="faculty/login.html" class="btn btn-primary">Login</a>
+                    <a href="faculty/register.html" class="btn btn-secondary">Register</a>
+                </div>
+            </div>
+
+            <!-- Recruiter Portal -->
+            <div class="portal-card portal-recruiter">
+                <div class="portal-icon-box">💼</div>
+                <h3 class="portal-title">Recruiter Portal</h3>
+                <p class="portal-desc">
+                    Post verified internship roles, filter applicant profiles and resumes, shortlist talent, schedule
+                    campus interviews, and roll out offers.
+                </p>
+                <ul class="portal-features-list">
+                    <li>Post and manage internship openings</li>
+                    <li>Review student resumes & CGPA</li>
+                    <li>Shortlist, accept, or reject candidates</li>
+                    <li>Schedule interviews with calendar notes</li>
+                </ul>
+                <div class="portal-actions">
+                    <a href="recruiter/login.html" class="btn btn-primary">Login</a>
+                    <a href="recruiter/register.html" class="btn btn-secondary">Register</a>
+                </div>
+            </div>
+
+            <!-- Administrator Portal -->
+            <div class="portal-card portal-admin">
+                <div class="portal-icon-box">🛡️</div>
+                <h3 class="portal-title">Administrator</h3>
+                <p class="portal-desc">
+                    Comprehensive campus-wide oversight: placement analytics, role management, corporate recruiter
+                    approvals, and campus broadcasts.
+                </p>
+                <ul class="portal-features-list">
+                    <li>Restricted Master Admin Access</li>
+                    <li>No public registration (Protected)</li>
+                    <li>Campus-wide placement statistics</li>
+                    <li>Broadcast announcements to all roles</li>
+                </ul>
+                <div class="portal-actions">
+                    <a href="admin/login.html" class="btn btn-primary" style="width: 100%;">Admin Login</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Credentials Bar -->
+    <div class="demo-bar" id="credentials">
+        <h4>🔑 Pre-Configured Demo Credentials (Instant Access)</h4>
+        <div class="demo-credentials-grid">
+            <div class="cred-item">
+                <div class="cred-role" style="color: #a5b4fc;">Student Account</div>
+                <div class="cred-email">Email: rahul@campus.edu</div>
+                <div class="cred-pass">Pass: student123</div>
+            </div>
+            <div class="cred-item">
+                <div class="cred-role" style="color: #67e8f9;">Faculty Account</div>
+                <div class="cred-email">Email: arun@campus.edu</div>
+                <div class="cred-pass">Pass: faculty123</div>
+            </div>
+            <div class="cred-item">
+                <div class="cred-role" style="color: #fcd34d;">Recruiter Account</div>
+                <div class="cred-email">Email: sarah@google.com</div>
+                <div class="cred-pass">Pass: recruiter123</div>
+            </div>
+            <div class="cred-item">
+                <div class="cred-role" style="color: #f472b6;">Master Administrator</div>
+                <div class="cred-email">Email: admin@campus.edu</div>
+                <div class="cred-pass">Pass: admin123</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Architecture & Features Showcase -->
+    <section class="portals-section" id="architecture" style="padding-top: 0;">
+        <div class="section-header">
+            <h2>System Highlights</h2>
+            <p>Designed with zero external server dependencies using clean, maintainable modular code.</p>
+        </div>
+
+        <div class="portal-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+            <div class="glass-panel">
+                <h3 class="panel-title">💾 Persistent Local Storage</h3>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">
+                    Pre-populated with rich mock datasets (Students, Mentors, Corporate Listings, NOCs). Any
+                    registrations, applications, or postings persist dynamically in your browser.
+                </p>
+            </div>
+            <div class="glass-panel">
+                <h3 class="panel-title">🛡️ Role-Based Access Guards</h3>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">
+                    Each portal validates role-specific session states. Administrative portal strictly prevents public
+                    registration and enforces administrative privilege verification.
+                </p>
+            </div>
+            <div class="glass-panel">
+                <h3 class="panel-title">🎨 Premium Glassmorphic Theme</h3>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">
+                    Crafted with deep midnight backgrounds, glowing neon gradients, translucent panels, responsive
+                    layouts, and clean typography suitable for enterprise campus deployments.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer
+        style="text-align: center; padding: 2.5rem; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.85rem;">
+        <p>© 2026 Smart Campus Internship Management System (SCIMS). Built with HTML5, CSS3, & Modern JavaScript.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/data.js"></script>
+</body>
+
+</html>

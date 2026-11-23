@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Mentor Dashboard | Smart Campus Internship System</title>
+    <link rel="stylesheet" href="../assets/css/shared.css">
+    <link rel="stylesheet" href="faculty.css">
+    <script src="../assets/js/data.js"></script>
+    <script src="faculty.js"></script>
+</head>
+
+<body>
+    <header class="top-navbar">
+        <a href="../index.html" class="brand-wrapper">
+            <div class="brand-icon" style="background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);">👩‍🏫</div>
+            <div class="brand-text">
+                <h1>SmartCampus <span>Faculty Console</span></h1>
+                <p>Academic Mentor & Clearance Authority</p>
+            </div>
+        </a>
+
+        <div class="nav-user-actions">
+            <div class="user-profile-badge">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80"
+                    alt="Avatar" class="user-avatar" id="faculty-header-avatar"
+                    style="border-color: var(--accent-cyan);">
+                <div class="user-info">
+                    <div class="user-name" id="faculty-header-name">Prof. Arun Kumar</div>
+                    <div class="user-role-tag" id="faculty-header-role" style="color: var(--accent-cyan);">Associate
+                        Professor • CSE</div>
+                </div>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="SCIMS.logout('../index.html')">Logout 🚪</button>
+        </div>
+    </header>
+
+    <!-- Dashboard Container -->
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div>
+                <div class="sidebar-heading">Mentor Controls</div>
+                <ul class="sidebar-menu">
+                    <li class="sidebar-item active" data-tab="fac-tab-overview">
+                        <span class="sidebar-icon">📊</span>
+                        <span>Mentor Overview</span>
+                    </li>
+                    <li class="sidebar-item" data-tab="fac-tab-noc">
+                        <span class="sidebar-icon">🛡️</span>
+                        <span>NOC Clearance Desk</span>
+                    </li>
+                    <li class="sidebar-item" data-tab="fac-tab-reports">
+                        <span class="sidebar-icon">📝</span>
+                        <span>Weekly Diary Grading</span>
+                    </li>
+                    <li class="sidebar-item" data-tab="fac-tab-cohort">
+                        <span class="sidebar-icon">👥</span>
+                        <span>Student Cohort Roster</span>
+                    </li>
+                    <li class="sidebar-item" data-tab="fac-tab-announcements">
+                        <span class="sidebar-icon">📢</span>
+                        <span>Faculty Notices</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar-footer">
+                <div
+                    style="background: rgba(255,255,255,0.03); padding: 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                    <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Clearance
+                        Authority</div>
+                    <div style="font-size: 0.88rem; font-weight: 600; color: #67e8f9;">Authorized Faculty Guide</div>
+                    <div style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 0.25rem;">Academic Session
+                        2026-27</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- TAB 1: FACULTY OVERVIEW -->
+            <section id="fac-tab-overview" class="tab-content active">
+                <div class="page-header">
+                    <div>
+                        <h2 class="page-title">Department Mentorship Center</h2>
+                        <p class="page-subtitle">Verify student NOC clearances and evaluate industrial milestone logs.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Stat Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-label">Pending NOC Requests</span>
+                            <div class="stat-icon faculty-stat-icon">🛡️</div>
+                        </div>
+                        <div class="stat-value" id="stat-fac-pending-noc">0</div>
+                        <div class="stat-meta">Awaiting your clearance sign-off</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-label">Diaries to Evaluate</span>
+                            <div class="stat-icon" style="background: rgba(245,158,11,0.15); color: #fbbf24;">📝</div>
+                        </div>
+                        <div class="stat-value" id="stat-fac-pending-reports">0</div>
+                        <div class="stat-meta">Pending weekly deliverables</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-label">Department Mentees</span>
+                            <div class="stat-icon" style="background: rgba(99,102,241,0.15); color: #a5b4fc;">👥</div>
+                        </div>
+                        <div class="stat-value" id="stat-fac-mentees">0</div>
+                        <div class="stat-meta">Registered engineering candidates</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-label">Dept Placement Rate</span>
+                            <div class="stat-icon" style="background: rgba(16,185,129,0.15); color: #34d399;">📈</div>
+                        </div>
+                        <div class="stat-value" id="stat-fac-placed">0%</div>
+                        <div class="stat-meta">Students with verified offers</div>
+                    </div>
+                </div>
+
+                <!-- Two-Column Overview -->
+                <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;">
+                    <div class="glass-panel">
+                        <div class="panel-header">
+                            <h3 class="panel-title">⚡ High-Priority Student NOC Approvals</h3>
+                        </div>
+                        <div id="fac-quick-queue"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: NOC CLEARANCE DESK -->
+            <section id="fac-tab-noc" class="tab-content">
+                <div class="page-header">
+                    <div>
+                        <h2 class="page-title">Digital NOC Clearance Queue</h2>
+                        <p class="page-subtitle">Review corporate internship terms, attendance prerequisites, and issue
+                            digital sign-offs.</p>
+                    </div>
+                </div>
+
+                <div class="glass-panel">
+                    <div class="table-responsive">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Candidate Name & Roll</th>
+                                    <th>Host Enterprise & Role</th>
+                                    <th>Tenure</th>
+                                    <th>Stipend</th>
+                                    <th>Status</th>
+                                    <th>Guide Remarks</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fac-noc-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: WEEKLY DIARY GRADING -->
+            <section id="fac-tab-reports" class="tab-content">
+                <div class="page-header">
+                    <div>
+                        <h2 class="page-title">Internship Milestone Diary Evaluation</h2>
+                        <p class="page-subtitle">Assess student industrial contributions, technical rigor, and assign
+                            academic marks.</p>
+                    </div>
+                </div>
+
+                <div class="glass-panel">
+                    <div class="table-responsive">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Host Company</th>
+                                    <th>Milestone Submission</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Grade</th>
+                                    <th>Evaluate</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fac-reports-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: MENTEE COHORT ROSTER -->
+            <section id="fac-tab-cohort" class="tab-content">
+                <div class="page-header">
+                    <div>
+                        <h2 class="page-title">Departmental Mentee Roster</h2>
+                        <p class="page-subtitle">Monitor the entire cohort's academic standing, technical skills, and
+                            hiring progress.</p>
+                    </div>
+                </div>
+
+                <div class="mentee-grid" id="mentees-container"></div>
+            </section>
+
+            <!-- TAB 5: FACULTY ANNOUNCEMENTS -->
+            <section id="fac-tab-announcements" class="tab-content">
+                <div class="page-header">
+                    <div>
+                        <h2 class="page-title">Academic & Industry Notices</h2>
+                        <p class="page-subtitle">Directives from the Dean of Academics and Training & Placement
+                            Directorate.</p>
+                    </div>
+                </div>
+                <div id="fac-announcements-container"></div>
+            </section>
+        </main>
+    </div>
+
+    <!-- MODAL 1: REVIEW NOC -->
+    <div class="modal-overlay" id="fac-review-noc-modal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 class="modal-title">Evaluate Student NOC Request</h3>
+                <button class="close-modal-btn" onclick="closeModal('fac-review-noc-modal')">&times;</button>
+            </div>
+            <form id="fac-review-noc-form">
+                <input type="hidden" id="modal-noc-id">
+
+                <div
+                    style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); padding: 1rem; border-radius: var(--radius-sm); margin-bottom: 1.25rem;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; font-size: 0.88rem;">
+                        <div>
+                            <span style="color: var(--text-muted); font-size: 0.75rem; display: block;">Student
+                                Candidate</span>
+                            <strong id="modal-noc-student" style="color: #fff;">-</strong>
+                        </div>
+                        <div>
+                            <span style="color: var(--text-muted); font-size: 0.75rem; display: block;">Corporate
+                                Offer</span>
+                            <strong id="modal-noc-company" style="color: var(--accent-cyan);">-</strong>
+                        </div>
+                        <div style="grid-column: 1 / -1;">
+                            <span style="color: var(--text-muted); font-size: 0.75rem; display: block;">Internship
+                                Duration</span>
+                            <span id="modal-noc-duration" style="color: #fff;">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Faculty Clearance Decision *</label>
+                    <select id="modal-noc-decision" class="form-control" required>
+                        <option value="Approved">Approve Clearance (Issue Official NOC)</option>
+                        <option value="Rejected">Reject Clearance (Non-compliant)</option>
+                        <option value="Pending">Keep in Pending Review</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Faculty Endorsement / Feedback Remarks *</label>
+                    <textarea id="modal-noc-remarks" class="form-control" rows="3" required
+                        placeholder="State justification, academic requirements, or prerequisites..."></textarea>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.25rem;">
+                    <button type="button" class="btn btn-secondary"
+                        onclick="closeModal('fac-review-noc-modal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary"
+                        style="background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);">Save Clearance
+                        Decision</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: GRADE REPORT -->
+    <div class="modal-overlay" id="fac-grade-report-modal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 class="modal-title">Evaluate Milestone Work Diary</h3>
+                <button class="close-modal-btn" onclick="closeModal('fac-grade-report-modal')">&times;</button>
+            </div>
+            <form id="fac-grade-report-form">
+                <input type="hidden" id="modal-rep-id">
+
+                <div
+                    style="margin-bottom: 1.25rem; background: rgba(255,255,255,0.03); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                    <div style="font-weight: 700; color: #fff; margin-bottom: 0.5rem;" id="modal-rep-student">-</div>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
+                        <strong style="color: var(--text-muted);">Tasks Executed:</strong>
+                        <p id="modal-rep-task-text" style="color: #fff; margin-top: 0.2rem;">-</p>
+                    </div>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                        <strong style="color: var(--text-muted);">Learning Outcomes:</strong>
+                        <p id="modal-rep-learn-text" style="color: var(--accent-cyan); margin-top: 0.2rem;">-</p>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Review Status *</label>
+                        <select id="modal-rep-status" class="form-control" required>
+                            <option value="Approved">Approved (Deliverables Verified)</option>
+                            <option value="Needs Revision">Needs Revision (Insufficient Detail)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Milestone Performance Grade *</label>
+                        <select id="modal-rep-grade" class="form-control" required>
+                            <option value="A+">A+ (Outstanding Contribution)</option>
+                            <option value="A">A (Very Good)</option>
+                            <option value="B+">B+ (Good)</option>
+                            <option value="B">B (Satisfactory)</option>
+                            <option value="C">C (Needs Improvement)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Mentor Evaluative Feedback *</label>
+                    <textarea id="modal-rep-feedback" class="form-control" rows="3" required
+                        placeholder="Add technical observations or suggestions for the student..."></textarea>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.25rem;">
+                    <button type="button" class="btn btn-secondary"
+                        onclick="closeModal('fac-grade-report-modal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary"
+                        style="background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);">Record
+                        Evaluation</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

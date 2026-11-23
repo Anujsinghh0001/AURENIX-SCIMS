@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Admin Console | Smart Campus Internship System</title>
+    <link rel="stylesheet" href="../assets/css/shared.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation Bar -->
+    <header class="top-navbar">
+        <a href="../index.html" class="brand-wrapper">
+            <div class="brand-icon" style="background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);">🛡️</div>
+            <div class="brand-text">
+                <h1>SmartCampus <span>Institutional Admin</span></h1>
+                <p>Central Academic Governance & TPO Directorate</p>
+            </div>
+        </a>
+
+        <div class="nav-user-actions">
+            <div class="user-profile-badge">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
+                    alt="Avatar" class="user-avatar" id="admin-header-avatar" style="border-color: #ec4899;">
+                <div class="user-info">
+                    <div class="user-name" id="admin-header-name">Dr. Vikramaditya Rathore</div>
+                    <div class="user-role-tag" id="admin-header-role" style="color: #f472b6;">Dean of Academic
+                        Partnerships</div>
+                </div>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="SCIMS.logout('../index.html')">Logout 🚪</button>
+        </div>
+    </header>
+
+    <!-- Dashboard Container -->
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div>
+                <div class="sidebar-heading">Master Governance</div>
+                <ul class="sidebar-menu">
+                    <li class="sidebar-item active" data-tab="adm-tab-overview">
+                        <span class="sidebar-icon">📊</span>
+                        <span>Campus Overview</span>
+                    </li>
+                    <li class="sidebar-item" data-tab="adm-tab-users">
+                        <span class="sidebar-icon">👥</span>
+                        <span>User Directory & RBAC</span>
+                    </li>
+                    <li class="sidebar-item" data-tab="adm-tab-jobs">
+                        <span class="sidebar-icon">🏢</span>
+                        <span>Corporate Openings</span>
+                    </li>
+                    <li class="sidebar-item" data-tab="adm-tab-broadcast">
+                        <span class="sidebar-icon">📢</span>
+                        <span>Campus Broadcasts</span>
+                    </li>
+                    <li class="sidebar-item" data-tab="adm-tab-analytics">
+                        <span class="sidebar-icon">📈</span>
+                        <span>Institutional Audit</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar-footer">
+                <div
+                    style="background: rgba(255,255,255,0.03); padding: 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                    <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Authority
+                        Level</div>
+                    <div style="font-size: 0.88rem; font-weight: 600; color: #f472b6;">Super Administrator</div>
+                    <div style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 0.25rem;">Full System Read
+                        / Write</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- TAB 1: EXECUTIVE OVERVIEW -->
+            <section id="adm-tab-overview" class="tab-content active">
+                <div class="page-header">
+                    <div>
+                        <h2 class="page-title">Institutional Placement & Internship Oversight</h2>
+                        <p class="page-subtitle">Real-time macro telemetry across all departments, mentors, students,
+                            and corporate partners.</p>
+                    </div>
+                    <div style="display: flex; gap: 0.75rem;">
+                        <button class="btn btn-secondary btn-sm" onclick="resetMockData()">Reset Demo Database
+                            🔄</button>
+                        <button class="btn btn-primary btn-sm" onclick="generateInstitutionalAuditReport()"
+                            style="background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);">Download Audit Report
+                            📄</button>
+                    </div>
+                </div>
+
+                <!-- Macro Stats Grid -->
+                <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-label">Enrolled Students</span>
+                            <div class="stat-icon" style="background: rgba(99,102,241,0.15); color: #a5b4fc;">👨‍🎓
+                            </div>
+                        </div>
+                        <div class="stat-value" id="stat-adm-students">0</div>
+                        <div class="stat-meta">Verified student profiles</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-label">Faculty Guides</span>
+                            <div class="stat-icon" style="background: rgba(6,182,212,0.15); color: #22d3ee;">👩‍🏫</div>
+                        </div>
+                        <div class="stat-value" id="stat-adm-faculty">0</div>
+                        <div class="stat-meta">Authorized mentor guides</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-label">Recruiter Partners</span>
+                            <div class="stat-icon" style="background: rgba(245,158,11,0.15); color: #fbbf24;">💼</div>
+                        </div>
+                        <div class="stat-value" id="stat-adm-recruiters">0</div>
+                        <div class="stat-meta">Registered corporate enterprises</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-label">Applications Handled</span>
+                            <div class="stat-icon admin-stat-icon">📝</div>
+                        </div>
+                        <div class="stat-value" id="stat-adm-apps">0</div>
+                        <div class="stat-meta">Campus pipeline submissions</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-label">NOCs Approved</span>
+                            <div class="stat-icon" style="background: rgba(16,185,129,0.15); color: #34d399;">🛡️</div>
+                        </div>
+                        <div class="stat-value" id="stat-adm-nocs">0</div>
+                        <div class="stat-meta">Verified institutional clearances</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-label">Offers Placed</span>
+                            <div class="stat-icon" style="background: rgba(236,72,153,0.15); color: #f472b6;">🎉</div>
+                        </div>
+                        <div class="stat-value" id="stat-adm-offers">0</div>
+                        <div class="stat-meta">Confirmed student placements</div>
+                    </div>
+                </div>
+
+                <!-- Executive Summary Cards -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+                    <div class="glass-panel">
+                        <h3 class="panel-title">🏛️ Institutional Compliance Checklist</h3>
+                        <ul
+                            style="list-style: none; margin-top: 1rem; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.9rem;">
+                            <li style="display: flex; align-items: center; gap: 0.6rem; color: #6ee7b7;">
+                                <span>✓</span> <strong>Role Isolation:</strong> Public self-registration for Admin is
+                                disabled.
+                            </li>
+                            <li style="display: flex; align-items: center; gap: 0.6rem; color: #6ee7b7;">
+                                <span>✓</span> <strong>Digital NOC Protocol:</strong> Two-way verification between
+                                Students & Faculty Guides.
+                            </li>
+                            <li style="display: flex; align-items: center; gap: 0.6rem; color: #6ee7b7;">
+                                <span>✓</span> <strong>Academic Auditability:</strong> Weekly milestone diaries logged
+                                with mentor evaluation.
+                            </li>
+                            <li style="display: flex; align-items: center; gap: 0.6rem; color: #6ee7b7;">
+                                <span>✓</span> <strong>Zero Backend Latency:</strong> Local client-side storage state
+                                architecture.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="glass-panel">
+                        <h3 class="panel-title">⚡ Quick Governance Actions</h3>
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem;">
+                            <button class="btn btn-secondary"
+                                onclick="document.querySelector('.sidebar-item[data-tab=adm-tab-broadcast]').click()">
+                                📢 Issue Campus-Wide Announcement
+                            </button>
+                            <button class="btn btn-secondary"
+                                onclick="document.querySelector('.sidebar-item[data-tab=adm-tab-users]').click()">
+                                👥 Inspect Complete User Roster (RBAC)
+                            </button>
+                            <button class="btn btn-secondary" onclick="generateInstitutionalAuditReport()">
+                                📄 Export Accredited Placement Dossier
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: USER DIRECTORY & RBAC -->
+            <section id="adm-tab-users" class="tab-content">
+                <div class="page-header">
+                    <div>
+                        <h2 class="page-title">Campus User Directory & RBAC</h2>
+                        <p class="page-subtitle">Inspect registered student dossiers, faculty guides, and corporate
+                            recruiter credentials.</p>
+                    </div>
+                </div>
+
+                <!-- Filter Toolbar -->
+                <div class="filter-bar">
+                    <div class="search-box">
+                        <span>🔍</span>
+                        <input type="text" id="search-users-input"
+                            placeholder="Search accounts by name, email, department, or company...">
+                    </div>
+                    <div>
+                        <select id="filter-user-role" class="form-control"
+                            style="width: auto; padding: 0.5rem 0.85rem;">
+                            <option value="all">All Roles (Student, Faculty, Recruiter, Admin)</option>
+                            <option value="student">Students</option>
+                            <option value="faculty">Faculty Guides</option>
+                            <option value="recruiter">Corporate Recruiters</option>
+                            <option value="admin">Administrators</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="glass-panel">
+                    <div class="table-responsive">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>User Account</th>
+                                    <th>System Role</th>
+                                    <th>Email</th>
+                                    <th>Dept / Organization</th>
+                                    <th>Roll / Designation</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-users-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: CORPORATE OPENINGS -->
+            <section id="adm-tab-jobs" class="tab-content">
+                <div class="page-header">
+                    <div>
+                        <h2 class="page-title">Corporate Internship Listings Auditing</h2>
+                        <p class="page-subtitle">Monitor and verify job roles posted by corporate recruitment partners.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="glass-panel">
+                    <div class="table-responsive">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Enterprise</th>
+                                    <th>Role Title</th>
+                                    <th>Mode</th>
+                                    <th>Monthly Stipend</th>
+                                    <th>Openings</th>
+                                    <th>Applicants</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-jobs-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: CAMPUS BROADCASTS -->
+            <section id="adm-tab-broadcast" class="tab-content">
+                <div class="page-header">
+                    <div>
+                        <h2 class="page-title">Broadcast Official Campus Bulletins</h2>
+                        <p class="page-subtitle">Publish verified communications directly to student, faculty, and
+                            recruiter consoles.</p>
+                    </div>
+                </div>
+
+                <!-- Broadcast Form -->
+                <div class="glass-panel" style="max-width: 800px;">
+                    <div class="panel-header">
+                        <h3 class="panel-title">Draft New Campus Notice</h3>
+                    </div>
+                    <form id="broadcast-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Notice Headline *</label>
+                                <input type="text" id="ann-title" class="form-control"
+                                    placeholder="e.g. Summer 2026 Campus Drive: Final Registration Window" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Target Audience *</label>
+                                <select id="ann-target" class="form-control" required>
+                                    <option value="all">Broadcast to Entire Campus (All Roles)</option>
+                                    <option value="student">Students Only</option>
+                                    <option value="faculty">Faculty Mentors Only</option>
+                                    <option value="recruiter">Corporate Recruiters Only</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Notice Content / Directives *</label>
+                            <textarea id="ann-content" class="form-control" rows="4"
+                                placeholder="Detail mandatory deadlines, guidelines, or placement cell protocols..."
+                                required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary"
+                            style="background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);">
+                            Publish Campus Broadcast 📢
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Active Bulletins -->
+                <div class="glass-panel" style="margin-top: 2rem;">
+                    <div class="panel-header">
+                        <h3 class="panel-title">Live Published Bulletins</h3>
+                    </div>
+                    <div id="admin-announcements-list"></div>
+                </div>
+            </section>
+
+            <!-- TAB 5: INSTITUTIONAL ANALYTICS & AUDIT -->
+            <section id="adm-tab-analytics" class="tab-content">
+                <div class="page-header">
+                    <div>
+                        <h2 class="page-title">Accreditation & Placement Analytics</h2>
+                        <p class="page-subtitle">Export official compliance records for NAAC, NBA, and NIRF
+                            institutional evaluations.</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="generateInstitutionalAuditReport()"
+                        style="background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);">
+                        Generate & Download Audit Dossier 📄
+                    </button>
+                </div>
+
+                <div class="glass-panel">
+                    <h3 class="panel-title" style="margin-bottom: 1rem;">Departmental Placement Conversion Rates</h3>
+                    <div class="table-responsive">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Department</th>
+                                    <th>Enrolled Candidates</th>
+                                    <th>Total Applications</th>
+                                    <th>NOC Approvals</th>
+                                    <th>Offers Extended</th>
+                                    <th>Conversion Rate</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Computer Science & Engineering</strong></td>
+                                    <td>124</td>
+                                    <td>286</td>
+                                    <td>42</td>
+                                    <td>38</td>
+                                    <td><strong style="color: var(--accent-emerald);">90.4%</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Electronics & Communication</strong></td>
+                                    <td>98</td>
+                                    <td>195</td>
+                                    <td>31</td>
+                                    <td>27</td>
+                                    <td><strong style="color: var(--accent-emerald);">87.1%</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Information Technology</strong></td>
+                                    <td>86</td>
+                                    <td>180</td>
+                                    <td>28</td>
+                                    <td>24</td>
+                                    <td><strong style="color: var(--accent-emerald);">85.7%</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Electrical & Core Engineering</strong></td>
+                                    <td>74</td>
+                                    <td>112</td>
+                                    <td>19</td>
+                                    <td>16</td>
+                                    <td><strong style="color: var(--accent-cyan);">84.2%</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../assets/js/data.js"></script>
+    <script src="admin.js"></script>
+</body>
+
+</html>

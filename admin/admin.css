@@ -1,0 +1,54 @@
+/**
+ * Administrator Portal Stylesheet (SCIMS)
+ */
+
+.admin-badge {
+    background: rgba(236, 72, 153, 0.15);
+    color: #f472b6;
+    border: 1px solid rgba(236, 72, 153, 0.3);
+}
+
+.admin-stat-icon {
+    background: rgba(236, 72, 153, 0.12);
+    color: #ec4899;
+}
+
+.security-warning-box {
+    background: rgba(236, 72, 153, 0.08);
+    border: 1px dashed rgba(236, 72, 153, 0.3);
+    border-radius: var(--radius-sm);
+    padding: 0.85rem;
+    font-size: 0.82rem;
+    color: #fbcfe8;
+    margin-top: 1.25rem;
+    line-height: 1.5;
+}
+
+.role-badge-pill {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.2rem 0.55rem;
+    border-radius: 4px;
+}
+
+.role-student {
+    background: rgba(99, 102, 241, 0.2);
+    color: #a5b4fc;
+}
+
+.role-faculty {
+    background: rgba(6, 182, 212, 0.2);
+    color: #67e8f9;
+}
+
+.role-recruiter {
+    background: rgba(245, 158, 11, 0.2);
+    color: #fcd34d;
+}
+
+.role-admin {
+    background: rgba(236, 72, 153, 0.2);
+    color: #f472b6;
+}

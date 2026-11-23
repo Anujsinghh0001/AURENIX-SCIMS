@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login | Smart Campus Internship Management System</title>
+    <link rel="stylesheet" href="../assets/css/shared.css">
+</head>
+
+<body class="auth-page">
+
+    <div class="auth-card">
+        <div style="margin-bottom: 1.25rem;">
+            <a href="../index.html"
+                style="font-size: 0.85rem; color: var(--text-muted); display: inline-flex; align-items: center; gap: 0.4rem;">
+                ← Back to Portal Gateway
+            </a>
+        </div>
+
+        <div class="auth-header">
+            <div class="auth-badge">👨‍🎓 Student Portal</div>
+            <h2 class="auth-title">Welcome Back</h2>
+            <p class="auth-subtitle">Sign in to track applications, request NOCs, and log reports</p>
+        </div>
+
+        <div id="login-error-msg"
+            style="display: none; background: rgba(244, 63, 94, 0.15); border: 1px solid rgba(244, 63, 94, 0.3); color: #fda4af; padding: 0.75rem 1rem; border-radius: var(--radius-sm); font-size: 0.85rem; margin-bottom: 1.25rem;">
+        </div>
+
+        <form id="student-login-form">
+            <div class="form-group">
+                <label class="form-label" for="student-email">Campus Email</label>
+                <input type="email" id="student-email" class="form-control" placeholder="rahul@campus.edu" required>
+            </div>
+
+            <div class="form-group">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <label class="form-label" for="student-password" style="margin-bottom: 0;">Password</label>
+                    <span style="font-size: 0.78rem; color: var(--primary-light); cursor: pointer;"
+                        onclick="alert('For demo, use default password: student123')">Forgot password?</span>
+                </div>
+                <input type="password" id="student-password" class="form-control" placeholder="••••••••" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">
+                Sign In to Dashboard
+            </button>
+        </form>
+
+        <div class="auth-demo-credentials">
+            <strong>🚀 Demo Student Account:</strong><br>
+            Email: <code>rahul@campus.edu</code> | Pass: <code>student123</code>
+            <div style="margin-top: 0.6rem;">
+                <button type="button" class="btn btn-secondary btn-sm" style="width: 100%; font-size: 0.78rem;"
+                    id="quick-fill-btn">
+                    Auto-Fill Demo Credentials
+                </button>
+            </div>
+        </div>
+
+        <div class="auth-footer">
+            Don't have a student account? <a href="register.html">Register here</a>
+        </div>
+    </div>
+
+    <script src="../assets/js/data.js"></script>
+    <script>
+        document.getElementById("quick-fill-btn").addEventListener("click", () => {
+            document.getElementById("student-email").value = "rahul@campus.edu";
+            document.getElementById("student-password").value = "student123";
+        });
+
+        document.getElementById("student-login-form").addEventListener("submit", (e) => {
+            e.preventDefault();
+            const email = document.getElementById("student-email").value.trim();
+            const password = document.getElementById("student-password").value;
+            const errorBox = document.getElementById("login-error-msg");
+
+            const res = SCIMS.login(email, password, "student");
+            if (res.success) {
+                SCIMS.showToast("Login successful! Redirecting...", "success");
+                setTimeout(() => {
+                    window.location.href = "dashboard.html";
+                }, 400);
+            } else {
+                errorBox.textContent = res.message;
+                errorBox.style.display = "block";
+            }
+        });
+    </script>
+</body>
+
+</html>

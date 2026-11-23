@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard | Smart Campus Internship Management</title>
+    <link rel="stylesheet" href="../assets/css/shared.css">
+    <link rel="stylesheet" href="student.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation Bar -->
+    <header class="top-navbar">
+        <a href="../index.html" class="brand-wrapper">
+            <div class="brand-icon">👨‍🎓</div>
+            <div class="brand-text">
+                <h1>SmartCampus <span>Student</span></h1>
+                <p>Internship Lifecycle Management</p>
+            </div>
+        </a>
+
+        <div class="nav-user-actions">
+            <div class="user-profile-badge">
+                <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&q=80"
+                    alt="Avatar" class="user-avatar" id="student-header-avatar">
+                <div class="user-info">
+                    <div class="user-name" id="student-header-name">Student User</div>
+                    <div class="user-role-tag" id="student-header-role">CS21B045 • Computer Science</div>
+                </div>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="SCIMS.logout('../index.html')">Logout 🚪</button>
+        </div>
+    </header>
+
+    <!-- Dashboard Container -->
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div>
+                <div class="sidebar-heading">Navigation Menu</div>
+                <ul class="sidebar-menu">
+                    <li class="sidebar-item active" data-tab="tab-overview">
+                        <span class="sidebar-icon">📊</span>
+                        <span>Dashboard Overview</span>
+                    </li>
+                    <li class="sidebar-item" data-tab="tab-internships">
+                        <span class="sidebar-icon">💼</span>
+                        <span>Explore Internships</span>
+                    </li>
+                    <li class="sidebar-item" data-tab="tab-applications">
+                        <span class="sidebar-icon">📝</span>
+                        <span>My Applications</span>
+                    </li>
+                    <li class="sidebar-item" data-tab="tab-noc">
+                        <span class="sidebar-icon">🛡️</span>
+                        <span>NOC Clearance</span>
+                    </li>
+                    <li class="sidebar-item" data-tab="tab-reports">
+                        <span class="sidebar-icon">📖</span>
+                        <span>Weekly Work Logs</span>
+                    </li>
+                    <li class="sidebar-item" data-tab="tab-announcements">
+                        <span class="sidebar-icon">📢</span>
+                        <span>Campus Bulletins</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar-footer">
+                <div
+                    style="background: rgba(255,255,255,0.03); padding: 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                    <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Portal Role
+                    </div>
+                    <div style="font-size: 0.88rem; font-weight: 600; color: #a5b4fc;">Verified Student</div>
+                    <div style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 0.25rem;">Academic Year
+                        2026-27</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- TAB 1: OVERVIEW -->
+            <section id="tab-overview" class="tab-content active">
+                <div class="page-header">
+                    <div>
+                        <h2 class="page-title">Welcome back, <span id="prof-name">Rahul</span>! 👋</h2>
+                        <p class="page-subtitle">Track your corporate internship pipeline and faculty clearance
+                            statuses.</p>
+                    </div>
+                    <div style="display: flex; gap: 0.75rem;">
+                        <button class="btn btn-secondary btn-sm" onclick="openModal('request-noc-modal')">+ Request
+                            NOC</button>
+                        <button class="btn btn-primary btn-sm" onclick="openModal('submit-report-modal')">+ Submit
+                            Weekly Log</button>
+                    </div>
+                </div>
+
+                <!-- Stat Summary Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-label">Applications Submitted</span>
+                            <div class="stat-icon">📝</div>
+                        </div>
+                        <div class="stat-value" id="stat-my-apps">0</div>
+                        <div class="stat-meta">Active across campus portal</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-label">Shortlisted / Offers</span>
+                            <div class="stat-icon" style="background: rgba(16,185,129,0.15); color: #34d399;">🎉</div>
+                        </div>
+                        <div class="stat-value" id="stat-shortlisted">0</div>
+                        <div class="stat-meta">Recruiter selection pipeline</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-label">Faculty NOC Status</span>
+                            <div class="stat-icon" style="background: rgba(245,158,11,0.15); color: #fbbf24;">🛡️</div>
+                        </div>
+                        <div class="stat-value" id="stat-noc-status" style="font-size: 1.35rem;">-</div>
+                        <div class="stat-meta">Academic clearance sign-off</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-label">Active Campus Openings</span>
+                            <div class="stat-icon" style="background: rgba(6,182,212,0.15); color: #22d3ee;">💼</div>
+                        </div>
+                        <div class="stat-value" id="stat-openings">0</div>
+                        <div class="stat-meta">Open for immediate application</div>
+                    </div>
+                </div>
+
+                <!-- Two-Column Overview Section -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+                    <!-- Academic Profile Card -->
+                    <div class="glass-panel">
+                        <div class="panel-header">
+                            <h3 class="panel-title">🎓 Student Academic Dossier</h3>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; font-size: 0.88rem;">
+                            <div>
+                                <span style="color: var(--text-muted); display: block; font-size: 0.75rem;">Roll
+                                    Number</span>
+                                <strong id="prof-roll" style="color: #fff;">-</strong>
+                            </div>
+                            <div>
+                                <span
+                                    style="color: var(--text-muted); display: block; font-size: 0.75rem;">Department</span>
+                                <strong id="prof-dept" style="color: #fff;">-</strong>
+                            </div>
+                            <div>
+                                <span style="color: var(--text-muted); display: block; font-size: 0.75rem;">Class
+                                    Standing</span>
+                                <strong id="prof-year" style="color: #fff;">-</strong>
+                            </div>
+                            <div>
+                                <span style="color: var(--text-muted); display: block; font-size: 0.75rem;">Cumulative
+                                    CGPA</span>
+                                <strong id="prof-cgpa" style="color: var(--accent-emerald);">-</strong>
+                            </div>
+                            <div style="grid-column: 1 / -1;">
+                                <span style="color: var(--text-muted); display: block; font-size: 0.75rem;">Campus
+                                    Email</span>
+                                <span id="prof-email" style="color: var(--text-secondary);">-</span>
+                            </div>
+                            <div style="grid-column: 1 / -1;">
+                                <span
+                                    style="color: var(--text-muted); display: block; font-size: 0.75rem; margin-bottom: 0.3rem;">Verified
+                                    Skills</span>
+                                <div id="prof-skills" class="skills-tags"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Application Activity -->
+                    <div class="glass-panel">
+                        <div class="panel-header">
+                            <h3 class="panel-title">⚡ Recent Application Milestones</h3>
+                        </div>
+                        <div id="overview-recent-apps"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: EXPLORE INTERNSHIPS -->
+            <section id="tab-internships" class="tab-content">
+                <div class="page-header">
+                    <div>
+                        <h2 class="page-title">Corporate Internship Listings</h2>
+                        <p class="page-subtitle">Verified opportunities vetted by the Campus Training & Placement Cell.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Filter & Search Toolbar -->
+                <div class="filter-bar">
+                    <div class="search-box">
+                        <span>🔍</span>
+                        <input type="text" id="search-internships"
+                            placeholder="Search by job title, company, or technical skills...">
+                    </div>
+                    <div style="display: flex; gap: 0.75rem;">
+                        <select id="filter-mode" class="form-control" style="width: auto; padding: 0.5rem 0.85rem;">
+                            <option value="all">All Modes (Remote / Onsite / Hybrid)</option>
+                            <option value="Remote">Remote</option>
+                            <option value="On-site">On-site</option>
+                            <option value="Hybrid">Hybrid</option>
+                        </select>
+                        <select id="filter-dept" class="form-control" style="width: auto; padding: 0.5rem 0.85rem;">
+                            <option value="all">All Departments</option>
+                            <option value="Computer Science & Engineering">Computer Science</option>
+                            <option value="Electronics & Communication">Electronics & Comm</option>
+                            <option value="Electrical Engineering">Electrical</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Grid of Jobs -->
+                <div class="internships-grid" id="internships-grid-container"></div>
+            </section>
+
+            <!-- TAB 3: MY APPLICATIONS -->
+            <section id="tab-applications" class="tab-content">
+                <div class="page-header">
+                    <div>
+                        <h2 class="page-title">My Submitted Applications</h2>
+                        <p class="page-subtitle">Track real-time hiring decisions, interview calls, and recruiter
+                            feedback.</p>
+                    </div>
+                </div>
+
+                <div class="glass-panel">
+                    <div class="table-responsive">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Role / Position</th>
+                                    <th>Company</th>
+                                    <th>Date Applied</th>
+                                    <th>Recruiter Status</th>
+                                    <th>Interview Schedule</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="my-applications-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: NOC CLEARANCE -->
+            <section id="tab-noc" class="tab-content">
+                <div class="page-header">
+                    <div>
+                        <h2 class="page-title">Digital No Objection Certificate (NOC)</h2>
+                        <p class="page-subtitle">Mandatory institutional clearance required before joining off-campus or
+                            on-campus internships.</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="openModal('request-noc-modal')">+ Request New NOC</button>
+                </div>
+
+                <div class="glass-panel">
+                    <div class="table-responsive">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Company</th>
+                                    <th>Designation</th>
+                                    <th>Duration</th>
+                                    <th>Assigned Faculty Guide</th>
+                                    <th>Approval Status</th>
+                                    <th>Mentor Remarks</th>
+                                    <th>Certificate</th>
+                                </tr>
+                            </thead>
+                            <tbody id="my-noc-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 5: WEEKLY WORK LOGS -->
+            <section id="tab-reports" class="tab-content">
+                <div class="page-header">
+                    <div>
+                        <h2 class="page-title">Weekly Milestone Work Diaries</h2>
+                        <p class="page-subtitle">Submit continuous internship documentation for academic credit
+                            evaluation.</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="openModal('submit-report-modal')">+ Submit Weekly
+                        Log</button>
+                </div>
+
+                <div class="glass-panel">
+                    <div class="table-responsive">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Milestone</th>
+                                    <th>Deliverable Title</th>
+                                    <th>Submitted Date</th>
+                                    <th>Status</th>
+                                    <th>Mentor Grade</th>
+                                    <th>Guide Remarks</th>
+                                    <th>Review</th>
+                                </tr>
+                            </thead>
+                            <tbody id="my-reports-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 6: ANNOUNCEMENTS -->
+            <section id="tab-announcements" class="tab-content">
+                <div class="page-header">
+                    <div>
+                        <h2 class="page-title">Campus Internship Bulletins</h2>
+                        <p class="page-subtitle">Official notifications from TPO and Academic Affairs.</p>
+                    </div>
+                </div>
+                <div id="announcements-container"></div>
+            </section>
+        </main>
+    </div>
+
+    <!-- MODAL 1: APPLY FOR INTERNSHIP -->
+    <div class="modal-overlay" id="apply-modal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div>
+                    <h3 class="modal-title">Apply for Internship</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.2rem;">
+                        <span id="apply-modal-job-title" style="color: #fff; font-weight: 600;">-</span> at <span
+                            id="apply-modal-company" style="color: var(--primary-light);">-</span>
+                    </p>
+                </div>
+                <button class="close-modal-btn" onclick="closeModal('apply-modal')">&times;</button>
+            </div>
+            <form id="apply-job-form">
+                <input type="hidden" id="apply-job-id">
+
+                <div class="form-group">
+                    <label class="form-label">Cover Note / Value Proposition to Recruiter *</label>
+                    <textarea id="apply-cover-note" class="form-control" rows="4"
+                        placeholder="Highlight your relevant project experience, key tech stack proficiencies, and why you are the best fit for this role..."
+                        required></textarea>
+                </div>
+
+                <div
+                    style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); padding: 0.85rem; border-radius: var(--radius-sm); margin-bottom: 1.25rem; font-size: 0.82rem; color: var(--text-secondary);">
+                    📎 Your verified academic dossier (CGPA, Coursework, Roll Number, and Uploaded Resume) will be
+                    forwarded automatically to the recruiter.
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 0.75rem;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('apply-modal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Confirm & Submit Application</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: REQUEST NOC -->
+    <div class="modal-overlay" id="request-noc-modal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 class="modal-title">Request Faculty NOC Clearance</h3>
+                <button class="close-modal-btn" onclick="closeModal('request-noc-modal')">&times;</button>
+            </div>
+            <form id="submit-noc-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Host Company Name *</label>
+                        <input type="text" id="noc-company" class="form-control" placeholder="e.g. Amazon AWS" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Internship Designation *</label>
+                        <input type="text" id="noc-role" class="form-control" placeholder="e.g. Cloud DevOps Intern"
+                            required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Internship Duration *</label>
+                        <select id="noc-duration" class="form-control" required>
+                            <option value="3 Months">3 Months (Summer)</option>
+                            <option value="6 Months">6 Months (Semester Long)</option>
+                            <option value="4 Months">4 Months</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Monthly Stipend *</label>
+                        <input type="text" id="noc-stipend" class="form-control" placeholder="e.g. ₹60,000 / month"
+                            required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Start Date *</label>
+                        <input type="date" id="noc-start-date" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">End Date *</label>
+                        <input type="date" id="noc-end-date" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Select Department Faculty Mentor *</label>
+                    <select id="noc-faculty-select" class="form-control" required></select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Upload Offer Letter Copy (PDF Simulation)</label>
+                    <input type="file" class="form-control" accept=".pdf,.png,.jpg">
+                    <small style="color: var(--text-muted); font-size: 0.75rem;">Verified offer letters expedite faculty
+                        mentor clearance.</small>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem;">
+                    <button type="button" class="btn btn-secondary"
+                        onclick="closeModal('request-noc-modal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Transmit NOC Request</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 3: SUBMIT WEEKLY WORK LOG -->
+    <div class="modal-overlay" id="submit-report-modal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 class="modal-title">Submit Weekly Milestone Diary</h3>
+                <button class="close-modal-btn" onclick="closeModal('submit-report-modal')">&times;</button>
+            </div>
+            <form id="submit-report-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Company Name *</label>
+                        <input type="text" id="rep-company" class="form-control" placeholder="e.g. Google Cloud"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Week Number *</label>
+                        <select id="rep-week-num" class="form-control" required>
+                            <option value="1">Week 1</option>
+                            <option value="2">Week 2</option>
+                            <option value="3">Week 3</option>
+                            <option value="4">Week 4</option>
+                            <option value="5">Week 5</option>
+                            <option value="6">Week 6</option>
+                            <option value="7">Week 7</option>
+                            <option value="8">Week 8</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Milestone / Deliverable Subject *</label>
+                    <input type="text" id="rep-title" class="form-control"
+                        placeholder="e.g. Microservices Refactoring & Unit Testing" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Key Engineering Tasks Executed *</label>
+                    <textarea id="rep-tasks" class="form-control" rows="3"
+                        placeholder="Detail the technical tasks completed during this week..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Key Learnings & Industrial Insights *</label>
+                    <textarea id="rep-learnings" class="form-control" rows="2"
+                        placeholder="What new tools, standards, or design patterns did you learn?" required></textarea>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem;">
+                    <button type="button" class="btn btn-secondary"
+                        onclick="closeModal('submit-report-modal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit to Faculty Guide</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../assets/js/data.js"></script>
+    <script src="student.js"></script>
+</body>
+
+</html>
